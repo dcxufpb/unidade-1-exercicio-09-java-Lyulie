@@ -79,9 +79,65 @@ public class Loja {
         return this.inscricaoEstadual;
     }
 
-    public String dadosLojaObjeto(Loja loja) {
+    public static boolean isNullEmpty(String text) {
+		try{
+			int k = text.length();
+		} catch (NullPointerException npe) {
+			return true;
+		}
+		return text.isEmpty();
+	}
+
+    public String dadosLojaObjeto() {
 		// Implemente aqui
-		return null;
+		if(isNullEmpty(getNomeLoja()))
+			throw new RuntimeException("O campo nome da loja é obrigatório");
+
+		if(isNullEmpty(getLogradouro()))
+			throw new RuntimeException("O campo logradouro do endereço é obrigatório");
+		
+		if(isNullEmpty(getMunicipio()))
+			throw new RuntimeException("O campo município do endereço é obrigatório");
+		
+		if(isNullEmpty(getEstado()))
+			throw new RuntimeException("O campo estado do endereço é obrigatório");
+		
+		if(isNullEmpty(getCnpj()))
+			throw new RuntimeException("O campo cnpj da loja é obrigatório");
+	
+		if(isNullEmpty(getInscricaoEstadual()))
+			throw new RuntimeException("O campo inscrição estadual da loja é obrigatório");
+
+		String _logradouro = getLogradouro() + ", ";
+		
+		String _numero = (getNumero() <= 0)? "s/n" : String.format("%d", getNumero());
+		
+		String _complemento = isNullEmpty(getComplemento())? "" : " " + getComplemento();
+		
+		String _bairro = isNullEmpty(getBairro())? "" : getBairro() + " - ";
+		
+		String _municipio = getMunicipio() + " - ";
+		
+		String _cep = isNullEmpty(getCep())? "" : "CEP:" + getCep();
+
+		String _telefone = isNullEmpty(getTelefone())? "" : "Tel " + getTelefone();
+		_telefone = (!_telefone.isEmpty() && !_cep.isEmpty())? " " + _telefone : _telefone;
+		
+		String _observacao = isNullEmpty(getObservacao())? "" : getObservacao();
+						
+		String _cnpj = "CNPJ: " + getCnpj();
+		
+		String _inscricao_estadual = "IE: " + getInscricaoEstadual();
+
+		String output = getNomeLoja() + "\n";
+		output += _logradouro + _numero + _complemento  + "\n";
+		output += _bairro + _municipio + getEstado() + "\n";
+		output +=  _cep + _telefone + "\n";
+		output +=  _observacao + "\n";
+		output +=  _cnpj + "\n";
+		output +=  _inscricao_estadual + "\n";
+
+		return output.replace("\n", System.lineSeparator());
 	}
 
 }
